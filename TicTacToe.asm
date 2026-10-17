@@ -179,7 +179,8 @@ collect:
 	li $v0, 5 #get input
 	syscall
 	move $t0, $v0
-	
+	bgt $t0, 8, ba
+	bltz $t0, ba
 	j check
 	ba:
 		la $a0, incorrect
