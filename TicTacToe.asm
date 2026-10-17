@@ -12,7 +12,7 @@
 		.word 0x0000FF #blue
 		.word 0xFF0000 #red
 		.word 0xFFFFFF #white
-	prompt: .asciiz "Give index 1-9 "
+	prompt: .asciiz "Give index: "
 	player: .asciiz "Player "
 	incorrect: .asciiz "0-8 please"
 	bad: .asciiz "Taken "
@@ -25,7 +25,6 @@
 .text
 
 main:
-	li $s3, 0xFFFF0000
 	la $s0, ar
 	move $t8, $s0
 	li $t9, 1 #player turn 1
@@ -177,69 +176,19 @@ collect:
 	la $a0, prompt
 	syscall
 	
-	#li $v0, 5 #get input
-	#syscall
-	#move $t0, $v0
-	keyloop:
-		lw $t0, 0($s3)
-		andi $t0, $t0, 1
-		beqz $t0, keyloop
-	lw $t8, 4($s3)
-	andi $t8, $t8, 0xFF
-	li $t7, 49
-	beq $t8, $t7, one
-	li $t7, 50
-	beq $t8, $t7, two
-	li $t7, 51
-	beq $t8, $t7, three
-	li $t7, 52
-	beq $t8, $t7, four
-	li $t7, 53
-	beq $t8, $t7, five
-	li $t7, 54
-	beq $t8, $t7, six
-	li $t7, 55
-	beq $t8, $t7, seven
-	li $t7, 56
-	beq $t8, $t7, eight
-	li $t7, 57
-	beq $t8, $t7, nine
-	j keyloop
-	one:
-		li $t0, 1
-		j check
-	tw:
-		li $t0, 1
-		j check
-	one:
-		li $t0, 1
-		j check
-	one:
-		li $t0, 1
-		j check
-	one:
-		li $t0, 1
-		j check
-	one:
-		li $t0, 1
-		j check
-	one:
-		li $t0, 1
-		j check
-	one:
-		li $t0, 1
-		j check
-	one:
-		li $t0, 1
-		j check
-	#ba:
-		#la $a0, incorrect
-		#li $v0, 4
-		#syscall
-		#li $v0, 4
-		#la $a0, line
-		#syscall
-		#j collect
+	li $v0, 5 #get input
+	syscall
+	move $t0, $v0
+	
+	j check
+	ba:
+		la $a0, incorrect
+		li $v0, 4
+		syscall
+		li $v0, 4
+		la $a0, line
+		syscall
+		j collect
 	
 check:
 	move $t8, $s0
